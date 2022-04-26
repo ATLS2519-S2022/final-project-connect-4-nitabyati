@@ -22,16 +22,30 @@ public class GreedyPlayer implements Player
     }
     public void init (int idTwo, int msecPerMove, int rows, int cols) {
     	columns = cols;
-    	id = idTwo
+    	id = idTwo;
     }
     public void calcMove (
         Connect4Board board, int oppMoveCol, Arbitrator arb) {
+    	Connect4Game game = null;
+    	int max = 0;
+    	int bestMove = 0;
     	for (int i = 0;
     			i < columns; i++) {
     		board.move(i, id);
+    		if (max < game.calcScore(board, id)) {
+    			bestMove = i; 
+    			max = game.calcScore(board, id);
+    		}
+    board.unmove(i, id);
+    
     		
     	
     	}
-        
+       try {
+		arb.setMove(bestMove);
+	} catch (TimeUpException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     }
 }
